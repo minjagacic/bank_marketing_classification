@@ -12,7 +12,7 @@ table(bank.data$y)
 
 # Funkcije koje koristimo u svim modelima cuvamo u jednom fajlu i pozivamo ih odatle
 # Ucitavanje funkcija
-source("funkcije.R")
+source("functions.R")
 
 #install.packages("pROC")
 library(pROC)
