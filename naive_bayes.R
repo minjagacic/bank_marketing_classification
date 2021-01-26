@@ -4,7 +4,7 @@
 
 # Ucitavanje dataseta, funckija i potrebnih biblioteka
 bank.data <- readRDS("data/cleaned_bank_data.RData")
-source("funkcije.R")
+source("functions.R")
 
 #install.packages("bnlearn")
 library(e1071)
