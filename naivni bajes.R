@@ -249,4 +249,17 @@ df_nb_metrics
 # nb 3  0.2324561 0.5353535   0.9273302 0.3241590 0.7048371
 # nb 4  0.1603774 0.8585859   0.9577039 0.2702703 0.7048371
 
-# Poslednji model, sa balansiranim podacima i biranim threshold-om daje najbolje rezultate
+# nb1 je model kreiran sa podrazumevanim vrednostima i u skladu sa tim, rezultati nisu dovoljno dobri, tacnije
+#       vrednost sensitivity (recall) je dosta niska
+
+# nb2 je model kreiran sa balansiram podacima te su rezultati bolji u odnosu na prvi model, 
+#       vidimo rast sensitivity metrike; takodje, ovu vrednost AUC metrike koristimo i u sledecim modelima
+
+# nb3 je model kreiran sa balansiranim podacima i biranom threshold vrednosti metodama "youden" i "closest top-left",
+#       ipak, sensitivity (recall) metrika je nesto niza u odnosu na nb2 model
+
+# nb4 je model kreiran sa balansiranim podacima i biranim threshold vrednosti tako da se maksimizira sensitivity 
+#       (recall) metrika, ali pazeci da vrednost za specificity ne bude previse niska.
+
+# Nas cilj je da sto tacnije predvidimo pozitivnu, "yes" klasu, te nam je bitno da sensitivity metrika bude sto veca.
+# Zato biramo nb4 model kao model koji daje najbolje rezultate.
