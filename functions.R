@@ -14,7 +14,7 @@ compute.eval.metrics <- function(cmatrix){
  
   prec <- TP / (TP + FP)
   rec <- TP / (TP + FN)
-  spec <- TN / (TN + FN)
+  spec <- TN / (TN + FP)
   F1 <- 2*prec*rec / (prec + rec)
   
   c(precision = prec, recall = rec, specificity = spec, F1 = F1)
