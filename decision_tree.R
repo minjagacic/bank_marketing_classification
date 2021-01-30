@@ -62,7 +62,7 @@ tree1.auc  # 0.566
 # Evaluacione metrike
 tree1.eval <- compute.eval.metrics(tree1.cm)
 tree1.eval
-# prec = 0.667,  rec (sensitivity) = 0.141, specificity = 0.898,  F1 = 0.233
+# prec = 0.667,  rec (sensitivity) = 0.141, specificity = 0.99,  F1 = 0.233
 # Model nije dobar
 
 
@@ -103,10 +103,13 @@ cp.opt
 tree2 <- prune(tree1, cp = cp.opt) 
 rpart.plot(tree2)
 tree2.pred <- predict(tree2, newdata = bank.test, type = "class")
+
 tree2.cm <- table(true = bank.test$y, predicted = tree2.pred)
 tree2.cm
+
 tree2.eval <- compute.eval.metrics(tree2.cm)
 tree2.eval
+# prec = 0.667,  rec (sensitivity) = 0.141, specificity = 0.99,  F1 = 0.233
 
 tree2.pred.prob <- predict (object = tree2, newdata = bank.test)
 tree2.auc <- roc.curve(bank.test$y, tree2.pred.prob[,2])$auc 
@@ -192,7 +195,7 @@ tree3.cm <- table(true = bank.test$y, predicted = tree3.pred)
 tree3.cm
 tree3.eval <- compute.eval.metrics(tree3.cm)
 tree3.eval
-# prec = 0.23,  rec (sensitivity) = 0.484, specificity = 0.921,  F1 = 0.313
+# prec = 0.23,  rec (sensitivity) = 0.484, specificity = 0.79,  F1 = 0.313
 
 tree3.auc <- test_roc(model = up_inside, data = bank.test) 
 tree3.auc # 95% CI: 0.6292-0.7418
@@ -214,8 +217,15 @@ df_trees_metrics <- data.frame(rbind(tree1.eval, tree2.eval, tree3.eval), row.na
 df_trees_metrics <- cbind(df_trees_metrics, AUC)
 df_trees_metrics
 
-# Poredjenjem sva tri modela zakljucujemo sledece:
-# tree1 i tree2 imaju iste vrednosti evaluacionih metrika jer rade sa istim podacima
-# tree3 radi sa balansiranim podacima i to podacima balansiranim up-sampling tehnikom
-# tree3 model povecava vrednosti metrika koje su nama vazne: sensitivity, specificity i  AUC 
+#        precision    recall specificity        F1       AUC
+# tree 1  0.6666667 0.1414141   0.9908136 0.2333333 0.5661139
+# tree 2  0.6666667 0.1414141   0.9908136 0.2333333 0.5661139
+# tree 3  0.2307692 0.4848485   0.7900262 0.3127036 0.6855365
 
+# Poredjenjem sva tri modela zakljucujemo sledece:
+# tree1 i tree2 su dva ista modela kreirana nad istim podacima i sa istim parametrom cp
+# tree3 model je kreiran nad balansiranim podacima i daje drugacije rezultate:
+#       sensitivity (recall) i AUC metrike imaju povecane vrednosti, dok su vrednosti za specificity smanjene
+
+# S obzirom na to da je nas cilj tacna predikcija pozitivne, "yes" klase,
+#       tree3 je model koji za nas daje najbolje rezultate
