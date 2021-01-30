@@ -89,7 +89,7 @@ nb1.cm
 
 nb1.eval <- compute.eval.metrics(nb1.cm)
 nb1.eval
-# prec = 0.289,  rec (sensitivity) = 0.202, specificity = 0.9,  F1 = 0.238
+# prec = 0.289,  rec (sensitivity) = 0.202, specificity = 0.935,  F1 = 0.238
 
 nb1.pred.prob <- predict(nb1, newdata = bank.test_nb, type = "raw")
 
@@ -181,7 +181,7 @@ nb2.cm
 
 nb2.eval <- compute.eval.metrics(nb2.cm)
 nb2.eval
-# prec = 0.206,  rec (sensitivity) = 0.565, specificity = 0.927,  F1 = 0.302
+# prec = 0.206,  rec (sensitivity) = 0.565, specificity = 0.717,  F1 = 0.302
 
 nb2.auc <- test_roc(model = up_inside, data = bank.test_nb) 
 nb2.auc # 95% CI: 0.652-0.7577
@@ -211,7 +211,7 @@ nb3.cm
 
 nb3.eval <- compute.eval.metrics(nb3.cm)
 nb3.eval
-# prec = 0.232,  rec (sensitivity) = 0.535, specificity = 0.927,  F1 = 0.324
+# prec = 0.232,  rec (sensitivity) = 0.535, specificity = 0.77,  F1 = 0.324
 
 nb3.auc <- nb2.auc # 0.7048
 
@@ -232,8 +232,7 @@ nb4.cm
 
 nb4.eval <- compute.eval.metrics(nb4.cm)
 nb4.eval
-# prec = 0.160,  rec (sensitivity) = 0.858, specificity = 0.957,  F1 = 0.270
-
+# prec = 0.160,  rec (sensitivity) = 0.858, specificity = 0.416,  F1 = 0.270
 nb4.auc <- nb2.auc  # 0.7048
 
 # ------------   Poredjenje rezultata  ------------ # 
@@ -244,22 +243,25 @@ df_nb_metrics <- cbind(df_nb_metrics, AUC)
 df_nb_metrics
 
 #       precision    recall specificity        F1       AUC
-# nb 1  0.2898551 0.2020202   0.9002525 0.2380952 0.6998794
-# nb 2  0.2066421 0.5656566   0.9271186 0.3027027 0.7048371
-# nb 3  0.2324561 0.5353535   0.9273302 0.3241590 0.7048371
-# nb 4  0.1603774 0.8585859   0.9577039 0.2702703 0.7048371
+# nb 1  0.2898551 0.2020202   0.9356955 0.2380952 0.6998794
+# nb 2  0.2066421 0.5656566   0.7178478 0.3027027 0.7048371
+# nb 3  0.2324561 0.5353535   0.7703412 0.3241590 0.7048371
+# nb 4  0.1603774 0.8585859   0.4160105 0.2702703 0.7048371
 
-# nb1 je model kreiran sa podrazumevanim vrednostima i u skladu sa tim, rezultati nisu dovoljno dobri, tacnije
-#       vrednost sensitivity (recall) je dosta niska
+# nb1 je model kreiran sa podrazumevanim vrednostima i u skladu sa tim, za nase potrebe rezultati nisu dovoljno dobri, 
+#       tacnije vrednost sensitivity (recall) je dosta niska, iako je specificity najvisa
 
 # nb2 je model kreiran sa balansiram podacima te su rezultati bolji u odnosu na prvi model, 
-#       vidimo rast sensitivity metrike; takodje, ovu vrednost AUC metrike koristimo i u sledecim modelima
+#       vidimo rast sensitivity metrike i pad specificity;
+#       takodje, ovu vrednost AUC metrike koristimo i u sledecim modelima
 
 # nb3 je model kreiran sa balansiranim podacima i biranom threshold vrednosti metodama "youden" i "closest top-left",
 #       ipak, sensitivity (recall) metrika je nesto niza u odnosu na nb2 model
 
 # nb4 je model kreiran sa balansiranim podacima i biranim threshold vrednosti tako da se maksimizira sensitivity 
-#       (recall) metrika, ali pazeci da vrednost za specificity ne bude previse niska.
+#       (recall) metrika, sto dovodi do smanjenja specificity metrike
 
 # Nas cilj je da sto tacnije predvidimo pozitivnu, "yes" klasu, te nam je bitno da sensitivity metrika bude sto veca.
 # Zato biramo nb4 model kao model koji daje najbolje rezultate.
+# Da nam je cilj bio tacno predvidjanje negativne, "no" metrike, ovaj model ne bi bio odgovarajuci
+
